@@ -29,9 +29,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.moviles.ui.settings.SettingsViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsViewModel) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -50,18 +51,17 @@ fun HomeScreen(navController: NavHostController) {
                     .height(150.dp)
                     .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFA020F0),
-                    contentColor = Color.White
-                ),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = "Agregar Chunchesito",
+                    contentDescription = "Agregar Producto",
+                    tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
-                    text = "Agregar chunchesito",
+                    text = "Agregar producto",
+                    color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -74,18 +74,17 @@ fun HomeScreen(navController: NavHostController) {
                     .height(150.dp)
                     .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFA020F0),
-                    contentColor = Color.White
-                ),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
             ) {
                 Icon(
                     imageVector = Icons.Filled.List,
-                    contentDescription = "Listar Chunches",
+                    contentDescription = "Listar Productos",
+                    tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
-                    text = "Ver chunchesitos",
+                    text = "Ver productos",
+                    color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -98,18 +97,42 @@ fun HomeScreen(navController: NavHostController) {
                     .height(150.dp)
                     .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFA020F0),
-                    contentColor = Color.White
-                ),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
             ) {
                 Icon(
                     imageVector = Icons.Filled.Settings,
-                    contentDescription = "Modificar Chunchesito",
+                    contentDescription = "Editar producto",
+                    tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
-                    text = "Modificar chunchesito",
+                    text = "Editar producto",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                )
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate("settings_screen") // Navigate to settings screen
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp) // Reduced height for settings button to fit
+                    .padding(vertical = 8.dp),
+                shape = RoundedCornerShape(30.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Settings, // Use a settings-like icon
+                    contentDescription = "Configuraciones",
+                    tint = Color.White
+                )
+                Spacer(Modifier.padding(4.dp))
+                Text(
+                    text = "Configuraciones",
+                    color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -128,18 +151,17 @@ fun HomeScreen(navController: NavHostController) {
                     .height(150.dp)
                     .padding(vertical = 8.dp),
                 shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF800080),
-                    contentColor = Color.White
-                ),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF800080), contentColor = Color.White),
             ) {
                 Icon(
                     imageVector = Icons.Filled.ExitToApp,
                     contentDescription = "Salir",
+                    tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
                     text = "Salir",
+                    color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
                 )
@@ -152,5 +174,8 @@ fun HomeScreen(navController: NavHostController) {
 @Composable
 fun PreviewHomeScreen() {
     val navController = rememberNavController()
-    HomeScreen(navController = navController)
+    HomeScreen(
+        navController = navController,
+        settingsViewModel = TODO()
+    )
 }
