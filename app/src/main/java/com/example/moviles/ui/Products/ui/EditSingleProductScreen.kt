@@ -81,7 +81,7 @@ fun EditSingleProductScreen(navController: NavHostController, productId: String?
 
     viewModel.product?.let {
         productName = it.nombre
-        productPrice = it.precio
+        productPrice = it.precio.toString()
     }
 
     val galleryLauncher = rememberLauncherForActivityResult(

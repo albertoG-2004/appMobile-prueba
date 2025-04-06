@@ -1,10 +1,12 @@
 package com.example.moviles.apiService
 
 import com.example.moviles.ui.Products.ui.ProductResponse
+import com.example.moviles.ui.Products.ui.OrderResponse
 import com.example.moviles.ui.login.ui.models.LoginReq
 import com.example.moviles.ui.login.ui.models.LoginRes
 import com.example.moviles.ui.register.ui.models.RegisterReq
 import com.example.moviles.ui.register.ui.models.RegisterRes
+import com.example.moviles.ui.Orders.ui.models.OrderReq
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -51,4 +53,18 @@ interface ApiService {
     // Registro de usuario
     @POST("users/add")
     suspend fun register(@Body req: RegisterReq): Response<RegisterRes>
+
+    //Login de clientes
+    @POST("clients/login")
+    fun loginClient(@Body req: LoginReq): retrofit2.Call<LoginRes>
+
+    //Funciones pedidos
+    @POST("orders")
+    suspend fun createOrder(@Body req: OrderReq): Response<Unit>
+
+    @GET("orders")
+    suspend fun getOrders(): Response<List<OrderResponse>>
+
+    @PUT("orders/{id}")
+    suspend fun updateOrder(@Path("id") id: Int): Response<Unit>
 }

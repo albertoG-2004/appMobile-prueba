@@ -1,37 +1,17 @@
+// LoginScreen.kt
 package com.example.moviles.ui.login.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -45,14 +25,24 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.moviles.R
 import kotlinx.coroutines.launch
+import com.example.moviles.ui.login.ui.LoginViewModelFactory
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = viewModel(), navController: NavHostController = rememberNavController()) {
+fun LoginScreen(navController: NavHostController = rememberNavController()) {
+    val context = LocalContext.current
+    val viewModel: LoginViewModel = viewModel(factory = LoginViewModelFactory(context))
     val scope = rememberCoroutineScope()
-    val navigateToHome by viewModel.navigateToHome.collectAsState(initial = false)
-    LaunchedEffect(navigateToHome) {
-        if (navigateToHome) {
-            navController.navigate("home_screen")
+    val navigateToHomeRole by viewModel.navigateToHome.collectAsState(initial = null)
+
+    LaunchedEffect(navigateToHomeRole) {
+        navigateToHomeRole?.let { role ->
+            if (role == "admin") {
+                navController.navigate("home_screen")
+            } else if (role == "client") {
+                navController.navigate("client_home_screen")
+            } else if (role != null) {
+                println("Rol desconocido o no manejado: $role")
+            }
         }
     }
 
@@ -81,17 +71,39 @@ fun Login(modifier: Modifier, viewModel: LoginViewModel, navController: NavHostC
         // **Añadiendo el Título aquí:**
         Text(
             text = "Chuchesitos Piccolinos",
-            style = MaterialTheme.typography.headlineLarge, // Usamos un estilo de titular grande
-            fontWeight = FontWeight.Bold, // Hacemos el texto en negrita
-            modifier = Modifier.padding(bottom = 8.dp) // Añadimos un poco de espacio debajo del título
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
         )
         HeaderImage(Modifier.padding(bottom = 16.dp))
         EmailField(viewModel)
         PasswordField(viewModel)
-        LoginButton(viewModel)
+
+        // **Nuevos Botones de Rol:**
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly // Distribución equitativa de espacio
+        ) {
+            Button(
+                onClick = { viewModel.onRoleSelected("admin") }, // Establecer rol admin
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text("Administrador")
+            }
+            Button(
+                onClick = { viewModel.onRoleSelected("client") }, // Establecer rol cliente
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text("Cliente")
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp)) // Espacio entre botones de rol y botón de login
+
+        LoginButton(viewModel) // Botón de Login (ahora usará el rol seleccionado)
         NoAccountButton(navController)
     }
 }
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -158,13 +170,14 @@ fun LoginButton(viewModel: LoginViewModel) {
     Button(
         onClick = {
             scope.launch {
-                viewModel.onLoginButtonClicked()
+                viewModel.onLoginButtonClicked() // El botón de login ahora usa el rol seleccionado
             }
         },
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        enabled = viewModel.loginEnabled // Mantén la habilitación basada en email y password
     ) {
         Text(text = "Acceder", color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.Bold, fontSize = MaterialTheme.typography.bodyLarge.fontSize)
     }

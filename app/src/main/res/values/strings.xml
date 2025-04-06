@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Moviles</string>
+    <string name="default_notification_title">Nueva Notificación</string>
+    <string name="default_notification_body">Tienes un nuevo mensaje.</string>
+    <string name="notification_channel_name">Canal de Notificaciones Principal</string>
+    <string name="notification_channel_description">Canal para notificaciones importantes de la aplicación.</string>
 </resources>

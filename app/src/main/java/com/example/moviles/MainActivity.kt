@@ -24,6 +24,9 @@ import com.example.moviles.ui.settings.SettingsScreen
 import com.example.moviles.ui.settings.SettingsViewModel
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
+import com.example.moviles.ui.ClientHome.ui.ClientHomeScreen
+import com.example.moviles.ui.Orders.ui.MakeOrderScreen
+import com.example.moviles.ui.Orders.ui.ViewOrdersScreen
 
 class MainActivity : ComponentActivity() {
     private val masterKeyAlias by lazy {
@@ -62,6 +65,9 @@ class MainActivity : ComponentActivity() {
                         composable("home_screen") {
                             HomeScreen(navController = navController, settingsViewModel = settingsViewModel)
                         }
+                        composable("client_home_screen") {
+                            ClientHomeScreen(navController = navController)
+                        }
                         composable("add_product_screen") {
                             AddProductScreen(navController = navController)
                         }
@@ -79,6 +85,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("settings_screen") {
                             SettingsScreen(settingsViewModel = settingsViewModel, onBack = { navController.popBackStack() })
+                        }
+                        composable("make_order_screen") {
+                            MakeOrderScreen(navController = navController)
+                        }
+                        composable("view_orders_screen") {
+                            ViewOrdersScreen(navController = navController)
                         }
                     }
                 }

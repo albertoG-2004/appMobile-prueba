@@ -1,6 +1,5 @@
-package com.example.moviles.ui.Home.ui
+package com.example.moviles.ui.ClientHome.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,10 +9,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -30,10 +29,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.moviles.ui.settings.SettingsViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsViewModel) {
+fun ClientHomeScreen(navController: NavHostController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -46,7 +44,7 @@ fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsView
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = { navController.navigate("add_product_screen") },
+                onClick = { navController.navigate("make_order_screen") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
@@ -55,13 +53,13 @@ fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsView
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Agregar Producto",
+                    imageVector = Icons.Filled.ShoppingCart,
+                    contentDescription = "Realizar Pedido",
                     tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
-                    text = "Agregar producto",
+                    text = "Realizar Pedido",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
@@ -69,30 +67,7 @@ fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsView
             }
 
             Button(
-                onClick = { navController.navigate("edit_delete_product_screen") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(150.dp)
-                    .padding(vertical = 8.dp),
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = "Editar producto",
-                    tint = Color.White
-                )
-                Spacer(Modifier.padding(4.dp))
-                Text(
-                    text = "Editar producto",
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-
-            Button(
-                onClick = { navController.navigate("view_orders_screen") },
+                onClick = { navController.navigate("list_products_screen") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp)
@@ -102,37 +77,12 @@ fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsView
             ) {
                 Icon(
                     imageVector = Icons.Filled.List,
-                    contentDescription = "Ver Pedidos",
+                    contentDescription = "Ver Productos",
                     tint = Color.White
                 )
                 Spacer(Modifier.padding(4.dp))
                 Text(
-                    text = "Ver Pedidos", // Cambiado el texto
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-
-            Button(
-                onClick = {
-                    navController.navigate("settings_screen")
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(120.dp)
-                    .padding(vertical = 8.dp),
-                shape = RoundedCornerShape(30.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFA020F0), contentColor = Color.White),
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = "Configuraciones",
-                    tint = Color.White
-                )
-                Spacer(Modifier.padding(4.dp))
-                Text(
-                    text = "Configuraciones",
+                    text = "Ver Productos",
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp
@@ -171,12 +121,9 @@ fun HomeScreen(navController: NavHostController, settingsViewModel: SettingsView
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-fun PreviewHomeScreen() {
+fun PreviewClientHomeScreen() {
     val navController = rememberNavController()
-    HomeScreen(
-        navController = navController,
-        settingsViewModel = TODO()
-    )
+    ClientHomeScreen(navController = navController)
 }
